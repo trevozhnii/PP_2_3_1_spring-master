@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <style>
+        th {
+            background-color: #f2f2f2;
+            color: #666;
+            font-weight: normal;
+            padding: 8px;
+            text-align: center;
+        }
+
+        td {
+            padding: 8px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        input[type="submit"], a.button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 12px 28px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        a.button {
+            background-color: #008CBA;
+        }
+
+        form {
+            display: inline-block;
+            margin: 0;
+            padding: 0;
+        }
+
+        a.edit-link {
+            color: #008CBA;
+        }
+    </style>
+</head>
+<body>
+<h1>Users</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.firstName}"></td>
+        <td th:text="${user.lastName}"></td>
+        <td th:text="${user.email}"></td>
+        <td><a th:href="@{/users/usereditorget/{id}(id=${user.id})}" class="button">Edit</a></td>
+        <td>
+            <form th:action="@{/users/{id}(id=${user.id})}" method="post">
+                <input type="hidden" name="_method" value="delete">
+                <input type="submit" value="Delete" class="button">
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a th:href="@{/users/saveget}" class="button">Add User</a>
+</body>
+</html>
