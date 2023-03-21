@@ -4,12 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.dao.UserDao;
+import project.exception.UserNotFoundException;
 import project.model.User;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
+    @Autowired
+    private EntityManager entityManager;
     UserDao userDao;
 
     @Autowired
@@ -25,14 +29,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void deleteUserById(Long id) {
-        userDao.deleteUserById(id);
+    public void deleteUserById(Long id){
+        User user = entityManager.find(User.class, id);
+        if (user == null) {
+            throw new UserNotFoundException("User not found with id: " + id);
+        }
+        else {
+        userDao.deleteUserById(id);}
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public User getUserById(Long id) {
-        return userDao.getUserById(id);
+    public User getUserById(Long id) throws UserNotFoundException {
+        User user = entityManager.find(User.class, id);
+        if (user == null) {
+            throw new UserNotFoundException("User not found with id: " + id);
+        }
+        return user;
     }
 
     @Override

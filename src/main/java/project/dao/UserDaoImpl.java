@@ -1,6 +1,7 @@
 package project.dao;
 
 import org.springframework.stereotype.Repository;
+import project.exception.UserNotFoundException;
 import project.model.User;
 
 import javax.persistence.EntityManager;
@@ -18,14 +19,18 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void deleteUserById(Long id) {
+    public void deleteUserById(Long id) throws UserNotFoundException{
         entityManager.remove(entityManager.find(User.class, id));
 
     }
 
     @Override
-    public User getUserById(Long id) {
-        return entityManager.find(User.class, id);
+    public User getUserById(Long id) throws UserNotFoundException {
+        User user = entityManager.find(User.class, id);
+        if (user == null) {
+            throw new UserNotFoundException("User not found with id: " + id);
+        }
+        return user;
     }
 
 
