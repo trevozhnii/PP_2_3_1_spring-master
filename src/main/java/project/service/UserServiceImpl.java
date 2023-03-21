@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(Long id) throws UserNotFoundException {
+    public User getUserById(Long id){
         User user = entityManager.find(User.class, id);
         if (user == null) {
             throw new UserNotFoundException("User not found with id: " + id);

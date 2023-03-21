@@ -9,9 +9,9 @@ import java.util.List;
 public interface UserService {
     void saveUser(User user);
 
-    void deleteUserById(Long id) throws UserNotFoundException;
+    void deleteUserById(Long id);
 
-    User getUserById(Long id) throws UserNotFoundException;
+    User getUserById(Long id);
 
     List<User> getAllUser();
 
