@@ -6,15 +6,12 @@ import org.springframework.transaction.annotation.Transactional;
 import project.dao.UserDao;
 import project.exception.UserNotFoundException;
 import project.model.User;
-
-import javax.persistence.EntityManager;
 import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
-    private EntityManager entityManager;
-    UserDao userDao;
+
+    @Autowired UserDao userDao;
 
     @Autowired
     public UserServiceImpl(UserDao userDao) {
@@ -30,7 +27,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void deleteUserById(Long id){
-        User user = entityManager.find(User.class, id);
+        User user = userDao.getUserById(id);
         if (user == null) {
             throw new UserNotFoundException("User not found with id: " + id);
         }
@@ -40,7 +37,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(Long id){
-        User user = entityManager.find(User.class, id);
+        User user = userDao.getUserById(id);
         if (user == null) {
             throw new UserNotFoundException("User not found with id: " + id);
         }

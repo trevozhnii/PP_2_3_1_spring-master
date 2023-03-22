@@ -1,5 +1,7 @@
 package project.dao;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import project.exception.UserNotFoundException;
@@ -24,12 +26,12 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void deleteUserById(Long id) {
-        User user = getUserById(id);
+        User user = entityManager.find(User.class, id);
         if (user != null) {
-            entityManager.remove(user);
-        }
+            entityManager.remove(entityManager.find(User.class, id));
+            }
         else {
-            throw new UserNotFoundException("User not found with id: " + id);
+            throw new UserNotFoundException("User not found with id " + id);
         }
     }
 

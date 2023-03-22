@@ -40,8 +40,21 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public String deleteUserById(@PathVariable("id") Long id) {
+        User user = userService.getUserById(id);
+        if (user != null) {
         userService.deleteUserById(id);
-        return "redirect:/users";
+        return "redirect:/users";}
+        else {
+            throw new UserNotFoundException("User not found with id " + id);
+        }
+    }
+    @GetMapping("/usereditorget/{id}")
+    public User getUserById(@PathVariable Long id) {
+        User user = userService.getUserById(id);
+        if (user == null) {
+            throw new UserNotFoundException("User not found with id " + id);
+        }
+        return user;
     }
 
     @GetMapping("/usereditorget/{id}")
@@ -54,12 +67,6 @@ public class UserController {
     public String userEditorPatch(@ModelAttribute("user") User user, @PathVariable("id") Long id) {
         userService.userEditor(user, id);
         return "redirect:/users";
-    }
-
-    @ExceptionHandler(UserNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorMessage handleUserNotFoundException(UserNotFoundException ex) {
-        return new ErrorMessage(ex.getMessage());
     }
 }
 
