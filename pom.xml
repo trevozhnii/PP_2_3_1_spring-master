@@ -65,6 +65,11 @@
             <artifactId>spring-data-jpa</artifactId>
             <version>2.7.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.jboss.weld.se</groupId>
+            <artifactId>weld-se</artifactId>
+            <version>2.0.2.Final</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>PP_2_3_1_spring</finalName>
